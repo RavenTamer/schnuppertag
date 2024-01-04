@@ -1,1 +1,0 @@
-# Schnuppertag HSLU

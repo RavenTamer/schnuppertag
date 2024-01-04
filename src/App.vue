@@ -9,21 +9,8 @@ const messages = useCollection(query(messagesCollection, orderBy("timestamp")));
 
 const auth = useFirebaseAuth();
 
+// Füge hier die beiden Zustandsvariablen zur Speicherung der Eingabewerte der Textfelder hinzu
 const newMessage = ref("");
-
-async function sendMessage() {
-  const user = await getCurrentUser();
-
-  addDoc(messagesCollection, {
-    text: newMessage.value,
-    author: user.email,
-    timestamp: Timestamp.now()
-  });
-}
-
-function isMyMessage(author) {
-  return author === currentUser.value.email;
-}
 
 const isLoggedIn = ref(false);
 const currentUser = ref();
@@ -36,6 +23,18 @@ const credentials = reactive({
 async function loginUser() {
   await signInWithEmailAndPassword(auth, credentials.email, credentials.password);
   isLoggedIn.value = true;
+}
+
+async function sendMessage() {
+  // Füge hier den Code zum Senden der Nachricht hinzu
+
+
+}
+
+function isMyMessage(author) {
+  // Füge hier den Code hinzu, der prüft, ob eine Nachricht von dir geschrieben wurde
+
+
 }
 
 async function logoutUser() {
@@ -69,11 +68,9 @@ onMounted(async () => {
     </div>
     <div id="message">
       <form @submit.prevent="sendMessage">
-        <!-- Eingabefeld für neue Nachricht -->
-        <input type="text" name="message" id="message-input" v-model="newMessage">
 
-        <!-- Knopf zum Absenden der neuen Nachricht -->
-        <input type="submit" id="message-send" value="Senden">
+        <!-- Füge hier den Code des Eingabefelds zum Senden einer Nachricht ein -->
+
       </form>
     </div>
   </main>
