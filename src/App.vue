@@ -1,45 +1,65 @@
 <script setup>
-import { computed, ref, watch } from 'vue';
-import { useCollection } from 'vuefire';
-import { addDoc, getDocs, query, where } from "firebase/firestore"
-import { messagesCollection } from "./firebase"
+import { onMounted, reactive, ref } from 'vue';
+import { useCollection, getCurrentUser, useFirebaseAuth } from 'vuefire';
+import { Timestamp, addDoc, orderBy, query } from "firebase/firestore";
+import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { messagesCollection } from "./firebase";
 
-const messages = useCollection(messagesCollection);
+const messages = useCollection(query(messagesCollection, orderBy("timestamp")));
 
-const me = ref();
+const auth = useFirebaseAuth();
 
 const newMessage = ref("");
-const newUsername = ref("");
 
-function sendMessage() {
+async function sendMessage() {
+  const user = await getCurrentUser();
+
   addDoc(messagesCollection, {
     text: newMessage.value,
-    author: me.value
+    author: user.email,
+    timestamp: Timestamp.now()
   });
 }
 
 function isMyMessage(author) {
-  return author === me.value
+  return author === currentUser.value.email;
 }
 
-function setUsername() {
-  me.value = newUsername.value;
+const isLoggedIn = ref(false);
+const currentUser = ref();
+
+const credentials = reactive({
+  email: "",
+  password: ""
+});
+
+async function loginUser() {
+  await signInWithEmailAndPassword(auth, credentials.email, credentials.password);
+  isLoggedIn.value = true;
 }
+
+async function logoutUser() {
+  await signOut(auth);
+  isLoggedIn.value = false;
+}
+
+onMounted(async () => {
+  const user = await getCurrentUser();
+
+  if (!user) return;
+
+  isLoggedIn.value = true;
+  currentUser.value = user;
+});
 </script>
 
 <template>
-  <main>
-    <div>
-      <form @submit.prevent="setUsername">
-        <label for="username">Benutzername</label>
-        <input type="text" id="username" name="username" v-model="newUsername">
-        <input type="submit" value="Speichern">
-      </form>
-    </div>
+  <main v-if="isLoggedIn && currentUser">
+    <button @click="logoutUser">Logout</button>
     <div id="chat-messages">
       <ul>
         <li class="chat-message" v-for="message in messages" :key="message.id"
-          :data-receiver="isMyMessage(message.author)">
+          :data-receiver="!isMyMessage(message.author)">
           <span>
             {{ message.text }} <br />
             <small>by {{ message.author }}</small>
@@ -53,9 +73,20 @@ function setUsername() {
         <input type="text" name="message" id="message-input" v-model="newMessage">
 
         <!-- Knopf zum Absenden der neuen Nachricht -->
-        <input type="submit" id="message-send" value="Senden" v-if="!me">
+        <input type="submit" id="message-send" value="Senden">
       </form>
-      <p v-if="!me" class="error">Du must zuerst einen Benutzernamen wählen</p>
     </div>
   </main>
+
+  <form v-else @submit.prevent="loginUser">
+
+    <label for="email">Email</label>
+    <input type="email" name="email" id="email" v-model="credentials.email">
+
+    <label for="email">Passwort</label>
+    <input type="password" name="password" id="password" v-model="credentials.password">
+
+    <input type="submit" value="Login">
+
+  </form>
 </template>
