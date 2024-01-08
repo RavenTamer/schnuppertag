@@ -9,21 +9,8 @@ const messages = useCollection(query(messagesCollection, orderBy("timestamp")));
 
 const auth = useFirebaseAuth();
 
-// Füge hier die beiden Zustandsvariablen zur Speicherung der Eingabewerte der Textfelder hinzu
-const newMessage = ref("");
+// Füge hier die Zustandsvariable zur Speicherung der Eingabe des Nachrichtenfelds hinzu
 
-const isLoggedIn = ref(false);
-const currentUser = ref();
-
-const credentials = reactive({
-  email: "",
-  password: ""
-});
-
-async function loginUser() {
-  await signInWithEmailAndPassword(auth, credentials.email, credentials.password);
-  isLoggedIn.value = true;
-}
 
 async function sendMessage() {
   // Füge hier den Code zum Senden der Nachricht hinzu
@@ -37,32 +24,48 @@ function isMyMessage(author) {
 
 }
 
+// Füge hier die Zustandsvariable ein, die speichert, ob der Benutzer eingeloggt ist oder nicht
+
+
+// Füge hier die Zustandsvariable ein, welche die Account Infos des eingeloggten Users speichert
+
+
+// Füge hier das Zustandsobjekt ein, welches Email- und Passworteingabe im Anmeldefenster speichert
+
+
+
+async function loginUser() {
+  // Füge hier den Code zum Anmelden des Benutzers ein
+
+
+}
+
 async function logoutUser() {
-  await signOut(auth);
-  isLoggedIn.value = false;
+  // Füge hier den Code zum Abmelden des Benutzers ein
+
+
 }
 
 onMounted(async () => {
-  const user = await getCurrentUser();
+  // Füge hier den Code ein, der prüft ob der Nutzer eingeloggt ist und die Accountdaten
+  // danach in der zugehörigen Zustandsvariable speichert, die in einem vorherigen Schritt erstellt wurde
 
-  if (!user) return;
 
-  isLoggedIn.value = true;
-  currentUser.value = user;
 });
 </script>
 
 <template>
   <main v-if="isLoggedIn && currentUser">
-    <button @click="logoutUser">Logout</button>
+    <!-- Füge hier den Code für den Logout Knopf ein -->
+
+
     <div id="chat-messages">
       <ul>
         <li class="chat-message" v-for="message in messages" :key="message.id"
           :data-receiver="!isMyMessage(message.author)">
-          <span>
-            {{ message.text }} <br />
-            <small>by {{ message.author }}</small>
-          </span>
+
+          <!-- Füge hier den Code zum Anzeigen einer einzelnen Nachricht ein -->
+
         </li>
       </ul>
     </div>
@@ -80,8 +83,9 @@ onMounted(async () => {
     <label for="email">Email</label>
     <input type="email" name="email" id="email" v-model="credentials.email">
 
-    <label for="email">Passwort</label>
-    <input type="password" name="password" id="password" v-model="credentials.password">
+    <!-- Füge hier den Code für das Passwortfeld ein, analog des Emailfeldes -->
+
+
 
     <input type="submit" value="Login">
 
