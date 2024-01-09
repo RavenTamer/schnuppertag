@@ -24,11 +24,7 @@ function isMyMessage(author) {
 
 }
 
-// Füge hier die Zustandsvariable ein, die speichert, ob der Benutzer eingeloggt ist oder nicht
-
-
-// Füge hier die Zustandsvariable ein, welche die Account Infos des eingeloggten Users speichert
-
+// Aufgabe 5: Füge hier die Zustandsvariable ein, welche die Account Infos des eingeloggten Users speichert
 
 const credentials = reactive({
   email: "",
@@ -49,20 +45,11 @@ async function logoutUser() {
 
 
 }
-
-onMounted(async () => {
-  // Füge hier den Code ein, der prüft ob der Nutzer eingeloggt ist und die Accountdaten
-  // danach in der zugehörigen Zustandsvariable speichert, die in einem vorherigen Schritt erstellt wurde
-
-
-});
 </script>
 
 <template>
-  <main v-if="isLoggedIn && currentUser">
-    <!-- Füge hier den Code für den Logout Knopf ein -->
-
-
+  <main v-if="currentUser">
+    <button @click="logoutUser">Logout</button>
     <div id="chat-messages">
       <ul>
         <li class="chat-message" v-for="message in messages" :key="message.id"
