@@ -25,19 +25,20 @@ function isMyMessage(author) {
 }
 
 // Aufgabe 5: Füge hier die Zustandsvariable ein, welche die Account Infos des eingeloggten Users speichert
+const currentUser = ref();
 
 const credentials = reactive({
   email: "",
 
   // Aufgabe 5: Füge hier eine zweite Zustandseigenschaft zur Speicherung des Passworts ein
-
+  password: "",
 })
 
 
 async function loginUser() {
   // Aufgabe 5: Füge hier den Code zum Anmelden des Benutzers ein
-
-
+  const result = await signInWithEmailAndPassword(auth, credentials.email, credentials.password);
+  currentUser.value = result.user;
 }
 
 async function logoutUser() {
@@ -75,7 +76,8 @@ async function logoutUser() {
     <input type="email" name="email" id="email" v-model="credentials.email">
 
     <!-- Aufgabe 5: Füge hier den Code für das Passwortfeld ein, analog des Emailfeldes -->
-
+    <label for="password">Passwort</label>
+    <input type="password" name="password" id="password" v-model="credentials.password">
 
 
     <input type="submit" value="Login">
