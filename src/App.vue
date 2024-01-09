@@ -30,8 +30,12 @@ function isMyMessage(author) {
 // Füge hier die Zustandsvariable ein, welche die Account Infos des eingeloggten Users speichert
 
 
-// Füge hier das Zustandsobjekt ein, welches Email- und Passworteingabe im Anmeldefenster speichert
+const credentials = reactive({
+  email: "",
 
+  // Aufgabe 5: Füge hier eine zweite Zustandseigenschaft zur Speicherung des Passworts ein
+
+})
 
 
 async function loginUser() {
@@ -83,7 +87,7 @@ onMounted(async () => {
     <label for="email">Email</label>
     <input type="email" name="email" id="email" v-model="credentials.email">
 
-    <!-- Füge hier den Code für das Passwortfeld ein, analog des Emailfeldes -->
+    <!-- Aufgabe 5: Füge hier den Code für das Passwortfeld ein, analog des Emailfeldes -->
 
 
 
