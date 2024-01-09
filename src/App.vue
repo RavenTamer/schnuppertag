@@ -35,7 +35,7 @@ const credentials = reactive({
 
 
 async function loginUser() {
-  // Füge hier den Code zum Anmelden des Benutzers ein
+  // Aufgabe 5: Füge hier den Code zum Anmelden des Benutzers ein
 
 
 }
