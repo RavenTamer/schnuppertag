@@ -25,7 +25,6 @@ function isMyMessage(author) {
   return author === currentUser.value.email;
 }
 
-const isLoggedIn = ref(false);
 const currentUser = ref();
 
 const credentials = reactive({
@@ -34,27 +33,26 @@ const credentials = reactive({
 });
 
 async function loginUser() {
-  await signInWithEmailAndPassword(auth, credentials.email, credentials.password);
-  isLoggedIn.value = true;
+  const result = await signInWithEmailAndPassword(auth, credentials.email, credentials.password);
+  currentUser.value = result.user;
 }
 
 async function logoutUser() {
   await signOut(auth);
-  isLoggedIn.value = false;
+  currentUser.value = undefined;
 }
 
-onMounted(async () => {
-  const user = await getCurrentUser();
+// onMounted(async () => {
+//   const user = await getCurrentUser();
 
-  if (!user) return;
+//   if (!user) return;
 
-  isLoggedIn.value = true;
-  currentUser.value = user;
-});
+//   currentUser.value = user;
+// });
 </script>
 
 <template>
-  <main v-if="isLoggedIn && currentUser">
+  <main v-if="currentUser">
     <button @click="logoutUser">Logout</button>
     <div id="chat-messages">
       <ul>
