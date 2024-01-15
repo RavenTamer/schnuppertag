@@ -47,7 +47,8 @@ async function loginUser() {
 
 async function logoutUser() {
   // Aufgabe 9: Füge hier den Code zum Abmelden des Benutzers ein
-
+  await signOut(auth);
+  currentUser.value = undefined;
 }
 </script>
 
