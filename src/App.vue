@@ -9,13 +9,18 @@ const messages = useCollection(query(messagesCollection, orderBy("timestamp")));
 
 const auth = useFirebaseAuth();
 
-// Füge hier die Zustandsvariable zur Speicherung der Eingabe des Nachrichtenfelds hinzu
-
+// Aufgabe 7: Füge hier die Zustandsvariable zur Speicherung der Eingabe des Nachrichtenfelds hinzu
+const messageInput = ref("");
 
 async function sendMessage() {
-  // Füge hier den Code zum Senden der Nachricht hinzu
+  // Aufgabe 7: Füge hier den Code zum Senden der Nachricht hinzu
+  await addDoc(messagesCollection, {
+    text: messageInput.value,
+    author: currentUser.value.email,
+    timestamp: Timestamp.now()
+  });
 
-
+  messageInput.value = "";
 }
 
 function isMyMessage(author) {
@@ -56,7 +61,11 @@ async function logoutUser() {
         <li class="chat-message" v-for="message in messages" :key="message.id"
           :data-receiver="!isMyMessage(message.author)">
 
-          <!-- Füge hier den Code zum Anzeigen einer einzelnen Nachricht ein -->
+          <!-- Aufgabe 6: Füge hier den Code zum Anzeigen einer einzelnen Nachricht ein -->
+          <span>
+            {{ message.text }}<br />
+            <small>by {{ message.author }}</small>
+          </span>
 
         </li>
       </ul>
@@ -64,7 +73,9 @@ async function logoutUser() {
     <div id="message">
       <form @submit.prevent="sendMessage">
 
-        <!-- Füge hier den Code des Eingabefelds zum Senden einer Nachricht ein -->
+        <!-- Aufgabe 7: Füge hier den Code des Eingabefelds und Knopfs zum Senden einer Nachricht ein -->
+        <input type="text" name="message" id="message-input" v-model="messageInput">
+        <input type="submit" value="Senden">
 
       </form>
     </div>
