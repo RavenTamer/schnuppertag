@@ -24,9 +24,8 @@ async function sendMessage() {
 }
 
 function isMyMessage(author) {
-  // Füge hier den Code hinzu, der prüft, ob eine Nachricht von dir geschrieben wurde
-
-
+  // Aufgabe 8: Füge hier den Code hinzu, der prüft, ob eine Nachricht von dir geschrieben wurde
+  return author === currentUser.value.email;
 }
 
 // Aufgabe 5: Füge hier die Zustandsvariable ein, welche die Account Infos des eingeloggten Users speichert
@@ -47,8 +46,7 @@ async function loginUser() {
 }
 
 async function logoutUser() {
-  // Füge hier den Code zum Abmelden des Benutzers ein
-
+  // Aufgabe 9: Füge hier den Code zum Abmelden des Benutzers ein
 
 }
 </script>
