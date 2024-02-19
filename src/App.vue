@@ -13,12 +13,11 @@ const auth = useFirebaseAuth();
 
 
 async function sendMessage() {
-  // Aufgabe 7: Füge hier den Code zum Senden der Nachricht hinzu
+  await addDoc(messagesCollection, {
+    // Hier kommen die Eigenschaften der Nachricht hin (z. Bsp. nachricht: "blabla")
+  });
 
-
-
-
-
+  messageInput.value = "";
 }
 
 function isMyMessage(author) {
